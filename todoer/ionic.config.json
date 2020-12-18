@@ -1,0 +1,7 @@
+{
+  "name": "todoer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
