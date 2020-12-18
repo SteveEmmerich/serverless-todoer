@@ -1,0 +1,58 @@
+service:
+  name: todoer-app
+
+frameworkVersion: '2'
+enableLocalInstallationFallback: false
+
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - amplify/**
+    - public/**
+    - build/**
+    - src/**
+
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+  - aws-amplify-serverless-plugin
+
+custom:
+  stage: ${env:STAGE, "dev"}
+  region: ${env:AWS_REGION, "us-east-1"}
+  amplify:
+    - filename: src/aws-exports.ts
+      type: typescript
+      appClient: CognitoUserPoolClient
+  DB_NAME: todoer
+  USERNAME: master
+  PASSWORD: PASSWORD
+  DB:
+     VPC_CIDR: 10
+    HOST:
+      Fn::GetAtt: [PostgreSqlRDSInstance, Endpoint.Address]
+    PORT:
+      Fn::GetAtt: [PostgreSqlRDSInstance, Endpoint.Port]
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  timeout: 15
+
+resources:
+  - ${file(resources/api-gateway.yml)}
+  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
+  - ${file(resources/lambda-role.yml)}
+  - ${file(resources/todoer-VPC.yml)}
+  - ${file(resources/todoer-subnet-a.yml)}
+  - ${file(resources/todoer-subnet-b.yml)}
+  - ${file(resources/todoer-subnet-c.yml)}
+  - ${file(resources/todoer-subnet-group.yml)}
+  - ${file(resources/todoer-security-group.yml)}
+  - ${file(resources/database-instance.yml)}

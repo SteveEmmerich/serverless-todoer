@@ -1,0 +1,15 @@
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+  - aws-amplify-serverless-plugin
+
+custom:
+  stage: ${env:STAGE, "dev"}
+  region: ${env:AWS_REGION, "us-east-1"}
+  amplify:
+    - filename: ../../src/aws-exports.ts
+      type: typescript
+      appClient: CognitoUserPoolClient
+  dotenv:
+    path: ../../.env

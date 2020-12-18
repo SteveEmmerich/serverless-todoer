@@ -1,0 +1,12 @@
+Resources:
+  TodoerSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: 'RDS Subnet Group'
+      SubnetIds:
+        - Ref: TodoerSubnetA
+        - Ref: TodoerSubnetB
+        - Ref: TodoerSubnetC
+      Tags:
+        - Key: 'Name'
+          Value: 'TodoerSubnetGroup'

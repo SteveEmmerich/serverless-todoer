@@ -1,0 +1,32 @@
+service:
+  name: user-api
+
+plugins: ${file(../config.yml):plugins}
+
+custom: ${file(../config.yml):custom}
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${self:custom.stage}
+  region: us-east-1
+  apiGateway:
+    restApiId:
+      'Fn::ImportValue': ${self:custom.stage}-SharedGW-restApiId
+    restApiRootResourceId:
+      'Fn::ImportValue': ${self:custom.stage}-SharedGW-rootResourceId
+  tracing:
+    lambda: true
+
+functions:
+  me:
+    handler: me.main
+    events:
+      - http:
+          path: users/me
+          method: get
+          cors: true
+          authorizer: aws_iam

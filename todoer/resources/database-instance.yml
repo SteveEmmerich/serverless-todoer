@@ -1,0 +1,16 @@
+Resources:
+  PostgreSqlRDSInstance:
+    DependsOn: TodoerVPC
+    Type: AWS::RDS::DBInstance
+    Properties:
+      MasterUsername: ${self:custom.USERNAME}
+      MasterUserPassword: ${self:custom.PASSWORD}
+      AllocatedStorage: 20
+      DBName: ${self:custom.DB_NAME}
+      DBInstanceClass: db.t2.micro
+      VPCSecurityGroups:
+        - !GetAtt TodoerSecurityGroup.GroupId
+      DBSubnetGroupName:
+        Ref: TodoerSubnetGroup
+      Engine: postgres
+      PubliclyAccessible: true

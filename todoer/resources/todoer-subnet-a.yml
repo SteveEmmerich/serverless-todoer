@@ -1,0 +1,12 @@
+Resources:
+  TodoerSubnetA:
+    DependsOn: TodoerVPC
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: TodoerVPC
+      AvailabilityZone: ${self:provider.region}a
+      CidrBlock: ${self:custom.DB.VPC_CIDR}.0.0.0/24
+      Tags:
+        - Key: 'Name'
+          Value: 'TodoerSubnetA'
