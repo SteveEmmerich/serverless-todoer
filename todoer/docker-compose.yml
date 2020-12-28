@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:5.7.32
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_PASSWORD: ${PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ${USERNAME}
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data/db:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
