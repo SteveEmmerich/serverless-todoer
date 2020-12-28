@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "todo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+          },
+      "id":{
+        "type": "string"
+        },
+      "title": {
+        "type": "string"
+        },
+      "task": {
+        "type": "string"
+        },
+      "done":{
+        "type": "boolean"
+        },
+      "shouldAlert": {
+        "type": "boolean"
+        },
+      "dueDate": {
+        "type": "string"
+        },
+      "imageUrl":{
+        "type": "string"
+        },
+      "created": {
+        "type": "string"
+        },
+      "updated":{
+        "type": "string"
+        }
+      },
+      "required": ["title", "task", "done"]
+    }
+  },
+  "type": "object",
+  "title": "todo",
+  "required":
+    [
+     
+      "title",
+      "task",
+      "done"
+    
+    ],
+  "properties": {
+    "$ref":"#/definitions/todo"
+    }
+}
