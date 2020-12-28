@@ -1,12 +1,35 @@
 service:
   name: todo-api
+frameworkVersion: '2'
+enableLocalInstallationFallback: false
 
-plugins: ${file(../config.yml):plugins}
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+  - aws-amplify-serverless-plugin
 
-custom: ${file(../config.yml):custom}
-
+custom:
+  stage: ${env:STAGE, "dev"}
+  region: ${env:AWS_REGION, "us-east-1"}
+  amplify:
+    - filename: ../../src/aws-exports.ts
+      type: typescript
+      appClient: CognitoUserPoolClient
+  dotenv:
+    path: ../../.env
+  bundle:
+    stats: false
 package:
   individually: true
+  exclude:
+    - ../../package.json
+    - ../../node_modules/**
+    - node_modules/**
+    - ../../amplify/**
+    - ../../public/**
+    - ../../build/**
+    - ../../src/**
 
 provider:
   name: aws
@@ -23,15 +46,26 @@ provider:
 
 functions:
   create:
-    handler: create.main
+    handler: src/create.create
     events:
       - http:
           path: todos
           method: post
           cors: true
           authorizer: aws_iam
+          request:
+            schema:
+              application/json: ${file(./src/schema/todo.schema.json)}
+            template:
+              application/json: '#set($body = $util.parseJson($input.body)) {
+                $body.title,
+                $body.task,
+                $body.done,
+                $body.shouldAlert,
+                $body.dueDate,
+                $body.imageUrl}'
   get:
-    handler: get.main
+    handler: src/get.get
     events:
       - http:
           path: todos/{id}
@@ -39,7 +73,7 @@ functions:
           cors: true
           authorizer: aws_iam
   list:
-    handler: list.main
+    handler: src/list.list
     events:
       - http:
           path: todos
@@ -47,15 +81,27 @@ functions:
           cors: true
           authorizer: aws_iam
   update:
-    handler: update.main
+    handler: src/update.update
     events:
       - http:
           path: todos/{id}
-          method: patch
+          method: put
           cors: true
           authorizer: aws_iam
+          request:
+            schema:
+              application/json: ${file(./src/schema/todo.schema.json)}
+            template:
+              application/json: '#set($body = $util.parseJson($input.body)) {
+                $body.id,
+                $body.title,
+                $body.task,
+                $body.done,
+                $body.shouldAlert,
+                $body.dueDate,
+                $body.imageUrl}'
   delete:
-    handler: delete.main
+    handler: src/delete.main
     events:
       - http:
           path: todos/{id}
