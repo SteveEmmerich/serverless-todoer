@@ -3,20 +3,26 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui-react": "^0.2.33",
     "@capacitor/core": "2.4.5",
+    "@hookform/error-message": "0.0.5",
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.3",
-    "@types/node": "^12.12.24",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@types/react-router": "^5.1.4",
     "@types/react-router-dom": "^5.1.3",
+    "aws-amplify": "^3.3.13",
+    "aws-amplify-react": "^4.2.17",
+    "easy-peasy": "^4.0.1",
     "ionicons": "^5.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-error-boundary": "^3.1.0",
+    "react-hook-form": "^6.13.1",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
@@ -28,8 +34,22 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "tabWidth": 2
+  },
   "eslintConfig": {
-    "extends": "react-app"
+    "root": true,
+    "ignorePatterns": "services/**",
+    "extends": [
+      "react-app",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended"
+    ]
   },
   "browserslist": {
     "production": [
@@ -47,10 +67,16 @@
     "@capacitor/cli": "2.4.5",
     "@types/aws-lambda": "^8.10.66",
     "@types/jest": "^24.9.1",
+    "@types/node": "^12.19.9",
     "aws-amplify-serverless-plugin": "^1.4.1",
     "serverless-bundle": "^4.1.0",
     "serverless-dotenv-plugin": "^3.1.0",
-    "serverless-offline": "^6.8.0"
+    "serverless-offline": "^6.8.0",
+    "serverless-plugin-monorepo": "^0.10.0"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "workspaces": [
+    "services/todo-api",
+    "services/user-api"
+  ]
 }
