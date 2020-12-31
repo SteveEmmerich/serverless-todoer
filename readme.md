@@ -1,8 +1,6 @@
 so we need to have a folder for the ionic front end, amplify, and serverless functions. maybe a parent serverless that sets up the auth, then child ones for the lambdas?
 
-amplify-sls-user
-accesskeyId AKIAU3N2EJELAGNSM45I
-secret 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
+
 This is tested locally and not fully deployed with RDS. (can't afford the test)
 Run install.sh
 
