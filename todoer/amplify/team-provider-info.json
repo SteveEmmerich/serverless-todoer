@@ -1,15 +1,23 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-todoer-dev-132930-authRole",
-      "UnauthRoleArn": "arn:aws:iam::333787187478:role/amplify-todoer-dev-132930-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::333787187478:role/amplify-todoer-dev-132930-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-todoer-dev-132930-deployment",
-      "UnauthRoleName": "amplify-todoer-dev-132930-unauthRole",
-      "StackName": "amplify-todoer-dev-132930",
-      "StackId": "arn:aws:cloudformation:us-east-1:333787187478:stack/amplify-todoer-dev-132930/a4270130-3fcc-11eb-b619-0e51aa6fabf5",
-      "AmplifyAppId": "d240ixfsqy5q2r"
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-todoer-dev-132930-authRole",
+            "UnauthRoleArn": "arn:aws:iam::333787187478:role/amplify-todoer-dev-132930-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::333787187478:role/amplify-todoer-dev-132930-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-todoer-dev-132930-deployment",
+            "UnauthRoleName": "amplify-todoer-dev-132930-unauthRole",
+            "StackName": "amplify-todoer-dev-132930",
+            "StackId": "arn:aws:cloudformation:us-east-1:333787187478:stack/amplify-todoer-dev-132930/a4270130-3fcc-11eb-b619-0e51aa6fabf5",
+            "AmplifyAppId": "d240ixfsqy5q2r"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d240ixfsqy5q2r",
+                    "type": "manual"
+                }
+            }
+        }
     }
-  }
 }
