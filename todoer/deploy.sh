@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-docker-compose up
+docker-compose up &
 sleep 10s
 
 sed -i '' '/[^#]/ s/\(^.*database-instance.*$\)/#\ \1/' serverless.yml
@@ -10,7 +10,7 @@ sleep 5s
 
 cd services
 cd todo-api
-serverless offline
+serverless offline &
 sleep 5s
 
 cd ../../
