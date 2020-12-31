@@ -7,6 +7,7 @@ import validator from '@middy/validator';
 
 import { updateTodo, init, Todo } from './common';
 import serverlessMysql from 'serverless-mysql';
+import httpSecurityHeaders from '@middy/http-security-headers';
 
 const mysql = serverlessMysql({
   config: {
@@ -51,7 +52,7 @@ export const update = middy(
       dueDate,
       imageUrl,
       created,
-    } = event.body;
+    } = (event.body as unknown) as Todo;
     await init(mysql);
     console.log(`todo: ${id}`);
     const todos = await updateTodo(mysql, {
@@ -76,4 +77,5 @@ export const update = middy(
   .use(cors())
   .use(jsonBodyParser())
   .use(validator({ inputSchema: schema }))
-  .use(httpErrorHandler());
+  .use(httpErrorHandler())
+  .use(httpSecurityHeaders());

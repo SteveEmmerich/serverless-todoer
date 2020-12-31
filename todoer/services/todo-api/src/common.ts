@@ -1,4 +1,5 @@
 import { ServerlessMysql } from 'serverless-mysql';
+
 interface Todo {
   id?: number;
   created?: string;
@@ -37,22 +38,31 @@ export const init = async (client: ServerlessMysql): Promise<unknown> => {
 export const createTodo = async (
   client: ServerlessMysql,
   todo: Todo,
-): Promise<unknown> => {
-  const result = await client.query(
-    `INSERT INTO todos (uuid, title, task, user_id, done, due_date, should_alert, image_url) VALUES( ?, ?,?,?,?,?,?,?)`,
-    [
-      todo.uuid,
-      todo.title,
-      todo.task,
-      todo.userId,
-      todo.done,
-      todo.dueDate,
-      todo.shouldAlert,
-      todo.imageUrl,
-    ],
-  );
-  console.log('result of create: ', result);
-  return result;
+): Promise<Todo> => {
+  const todoFromDb = await client
+    .transaction()
+    .query(
+      `INSERT INTO todos (uuid, title, task, user_id, done, due_date, should_alert, image_url) VALUES( ?, ?,?,?,?,?,?,?)`,
+      [
+        todo.uuid,
+        todo.title,
+        todo.task,
+        todo.userId,
+        todo.done,
+        todo.dueDate,
+        todo.shouldAlert,
+        todo.imageUrl,
+      ],
+    )
+    .query((r: { affectedRows: number }) => {
+      if (r.affectedRows > 0) {
+        return [`SELECT * FROM todos Where uuid = ?`, [todo.uuid]];
+      } else {
+        return null;
+      }
+    })
+    .commit<Todo[]>();
+  return todoFromDb[1][0];
 };
 export const getTodo = async (
   client: ServerlessMysql,
@@ -81,7 +91,7 @@ export const listTodo = async (
 export const updateTodo = async (
   client: ServerlessMysql,
   todo: Todo,
-): Promise<Todo[]> => {
+): Promise<Todo> => {
   const todoFromDb = await client
     .transaction()
     .query(
@@ -103,15 +113,25 @@ export const updateTodo = async (
         return null;
       }
     })
-    .commit<Todo>();
-  return todoFromDb;
+    .commit<Todo[]>();
+  return todoFromDb[1][0];
 };
 export const deleteTodo = async (
   client: ServerlessMysql,
   id: string,
-): Promise<unknown> => {
-  const result = await client.query(`DELETE FROM todos WHERE id = ?`, [id]);
-  return result;
+): Promise<Todo[]> => {
+  const todoFromDb = await client
+    .transaction()
+    .query(`DELETE FROM todos WHERE id = ?`, [id])
+    .query((r: { affectedRows: number }) => {
+      if (r.affectedRows > 0) {
+        return [`SELECT * FROM todos`];
+      } else {
+        return null;
+      }
+    })
+    .commit<Todo[]>();
+  return todoFromDb[1];
 };
 
 export type { Todo };

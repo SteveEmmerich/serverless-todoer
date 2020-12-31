@@ -34,7 +34,7 @@ interface IAWSAmplifyConfiguration {
 const awsmobile: IAWSAmplifyConfiguration = {
     aws_cloud_logic_custom: [
         {
-            endpoint: 'https://xfkgp67i3f.execute-api.us-east-1.amazonaws.com/dev',
+            endpoint: 'http://localhost:3000/dev',//'https://xfkgp67i3f.execute-api.us-east-1.amazonaws.com/dev',
             name: 'SharedGW',
             region: 'us-east-1'
         }

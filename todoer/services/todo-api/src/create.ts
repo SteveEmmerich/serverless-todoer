@@ -3,6 +3,7 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import jsonBodyParser from '@middy/http-json-body-parser';
 import httpErrorHandler from '@middy/http-error-handler';
+import httpSecurityHeaders from '@middy/http-security-headers';
 import validator from '@middy/validator';
 import { createTodo, init } from './common';
 import { v4 as uuidv4 } from 'uuid';
@@ -54,4 +55,5 @@ export const create = middy(
   .use(cors())
   .use(jsonBodyParser())
   .use(validator({ inputSchema: schema }))
-  .use(httpErrorHandler());
+  .use(httpErrorHandler())
+  .use(httpSecurityHeaders());
