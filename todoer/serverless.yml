@@ -15,7 +15,6 @@ package:
 
 plugins:
   - serverless-bundle # Package our functions with Webpack
-  - serverless-plugin-monorepo
   - serverless-dotenv-plugin # Load .env as environment variables
   - aws-amplify-serverless-plugin
   - serverless-offline
@@ -56,6 +55,6 @@ resources:
   - ${file(resources/todoer-subnet-c.yml)}
   - ${file(resources/todoer-subnet-group.yml)}
   - ${file(resources/todoer-security-group.yml)}
-  - ${file(resources/database-instance.yml)}
+# # #   - ${file(resources/database-instance.yml)}
 #functions:
 # - ${file(services/todo-api/serverless.yml):functions}
