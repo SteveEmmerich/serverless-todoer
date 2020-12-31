@@ -3,6 +3,8 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import { init, listTodo } from './common';
 import serverlessMysql from 'serverless-mysql';
+import httpSecurityHeaders from '@middy/http-security-headers';
+import httpErrorHandler from '@middy/http-error-handler';
 
 const mysql = serverlessMysql({
   config: {
@@ -31,4 +33,7 @@ export const list = middy(
       body: JSON.stringify(todos),
     };
   },
-).use(cors());
+)
+  .use(cors())
+  .use(httpErrorHandler())
+  .use(httpSecurityHeaders());

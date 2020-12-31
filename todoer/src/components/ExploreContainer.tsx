@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ExploreContainer.css';
 
-interface ContainerProps { }
+import { IonButton, IonModal } from '@ionic/react';
+import TodoList from './todos/todo-list.component';
+import TodoItem from './todos/todo.component';
+interface ContainerProps {}
 
 const ExploreContainer: React.FC<ContainerProps> = () => {
+  const [showModal, setShowModal] = useState(false);
   return (
-    <div className="container">
-      <strong>Ready to create an app?</strong>
-      <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div>
+      <IonButton onClick={() => setShowModal(true)}>New Todo?</IonButton>
+      <IonModal isOpen={showModal}>
+        <TodoItem setShowModal={(val: boolean) => setShowModal(val)} id={''} />
+        <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
+      </IonModal>
+      <TodoList />
     </div>
   );
 };
